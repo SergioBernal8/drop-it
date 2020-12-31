@@ -3,3 +3,5 @@ DerivedData/
 .build/
 Pods/
 xcuserdata/
+Podfile.lock
+Drop it.xcworkspace/
