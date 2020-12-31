@@ -36,8 +36,9 @@ class FileExplorerViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        title = "File Explorer"
         
+        
+        addNavBar()
         addListView()
         addBindings()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -45,11 +46,30 @@ class FileExplorerViewController: UIViewController {
         }
     }
     
+    @objc func backButtonPresses() {
+        viewModel?.getPreviousFiles()
+    }
+    
+    private func addNavBar() {
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 12, width: view.frame.size.width, height: 44))
+        navBar.barTintColor = .white
+        navBar.tintColor = .black
+                
+        let image = UIImage(named: "backIcon")
+        let navItem = UINavigationItem(title: "Files")
+        let backButton = UIBarButtonItem(image: image, style: .plain, target: nil, action: #selector(backButtonPresses))
+        
+        navItem.leftBarButtonItem = backButton
+        navBar.setItems([navItem], animated: false)
+        view.addSubview(navBar)
+    }
+    
     private func addListView(){
         let size = view.frame.size
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        tableView = UITableView(frame: CGRect(x: 0, y: 56, width: size.width, height: size.height))
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorStyle = .none
         tableView.register(FileTableViewCell.self, forCellReuseIdentifier: "FileCell")
         
         view.addSubview(tableView)
@@ -78,7 +98,7 @@ class FileExplorerViewController: UIViewController {
 extension FileExplorerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        viewModel?.getFilesForNext(index: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 80 }

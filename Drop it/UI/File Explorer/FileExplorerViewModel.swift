@@ -16,10 +16,10 @@ protocol FileExplorerViewModelInterface {
     var subjectReloadFiles: PublishSubject<Bool> { get }
     
     func getMainFiles()
-    func getFilesForNext(path: String)
+    func getFilesForNext(index: Int)
     func getPreviousFiles()
     func getFileCount() -> Int
-    func getFileFor(index: Int) -> DropboxFile
+    func getFileFor(index: Int) -> DropboxFile    
 }
 
 class FileExplorerViewModel: FileExplorerViewModelInterface {
@@ -42,7 +42,6 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
         
         repository.filesSubject.subscribe(onNext: { [weak self] file in
             self?.filesBackUp[self?.currentPage ?? 0]?.append(file)
-            self?.filesBackUp[self?.currentPage ?? 0]?.sort(by: { $0.name < $1.name})
         }).disposed(by: bag)
         
         repository.requestStatusSubject.subscribe(onNext: { status in
@@ -51,6 +50,7 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
             case .started:
                 self.subjectLoadingIndicator.onNext(true)
             case .finished:
+                self.filesBackUp[self.currentPage]?.sort(by: { $0.name < $1.name})
                 self.subjectReloadFiles.onNext(true)
                 self.subjectLoadingIndicator.onNext(false)
             case .error:
@@ -69,19 +69,28 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
         repository.getFiles(for: "")
     }
     
-    func getFilesForNext(path: String) {
+    func getFilesForNext(index: Int) {
+        
+        guard filesBackUp[currentPage]?[index].isFolder ?? false else { return }
+        
+        subjectLoadingIndicator.onNext(true)
+        
+        let path = filesBackUp[currentPage]?[index].path ?? ""
         currentPage += 1
+        
         filesBackUp[currentPage] = [DropboxFile]()
         repository.getFiles(for: path)
     }
     
     func getPreviousFiles() {
         guard currentPage > 0 else { return }
+        
+        subjectLoadingIndicator.onNext(true)
+        
         currentPage -= 1
         
-        filesBackUp[currentPage]?.forEach({ (file) in
-            self.subjectReloadFiles.onNext(true)
-        })
+        subjectReloadFiles.onNext(true)
+        subjectLoadingIndicator.onNext(false)
     }
     
     func getFileCount() -> Int { filesBackUp[currentPage]?.count ?? 0 }
