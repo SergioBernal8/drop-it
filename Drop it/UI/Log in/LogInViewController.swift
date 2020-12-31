@@ -13,11 +13,11 @@ import SwiftyDropbox
 
 class LogInViewController: UIViewController {
     
-    var viewModel: LogInViewModelProtocol?
+    var viewModel: LogInViewModelInterface?
     
     let bag = DisposeBag()
     
-    init(viewModel: LogInViewModelProtocol) {
+    init(viewModel: LogInViewModelInterface) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil) 
@@ -28,7 +28,7 @@ class LogInViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-         super.init(coder: coder)
+        super.init(coder: coder)
     }
     
     override func viewDidLoad() {
@@ -36,8 +36,15 @@ class LogInViewController: UIViewController {
         
         title = "Log In"
         view.backgroundColor = .white
-        createButtonLoginButton()
+        
         addBindings()
+        
+        
+        if !(viewModel?.checkLogStatus() ?? true){
+            createButtonLoginButton()
+        } else {
+            ProgressHUD.show()
+        }
     }
     
     private func createButtonLoginButton(){
@@ -53,16 +60,16 @@ class LogInViewController: UIViewController {
         view.addSubview(loginButton)
     }
     
-    @objc func buttonActionClick(sender: UIButton!) {
+    @objc private func buttonActionClick(sender: UIButton!) {
         
         viewModel?.logUser(controller: self)
     }
     
-    
-    
-    func addBindings() {
+    private func addBindings() {
         viewModel?.subjectLogInSuccess.subscribe(onNext: { success in
-
+            if success {
+                self.goToFileExplorer()
+            }
         }).disposed(by: bag)
         
         viewModel?.subjectLoadingIndicator.subscribe(onNext: { loading in
@@ -74,4 +81,14 @@ class LogInViewController: UIViewController {
         }).disposed(by: bag)
     }
     
+    private func goToFileExplorer() {
+        
+        let controller = FileExplorerViewController(viewModel: FileExplorerViewModel(repository: DropboxFileRepository()))
+        controller.modalPresentationStyle = .overFullScreen
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            ProgressHUD.dismiss()
+            self.present(controller, animated: true, completion: nil)
+        }
+    }
 }

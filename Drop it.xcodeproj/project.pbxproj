@@ -15,6 +15,12 @@
 		B8AE4699259CEFF600D18500 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE4698259CEFF600D18500 /* Constants.swift */; };
 		B8AE46A0259CF27F00D18500 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE469F259CF27F00D18500 /* LogInViewModel.swift */; };
 		B8AE46A2259CF2D300D18500 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46A1259CF2D300D18500 /* LogInViewController.swift */; };
+		B8AE46A7259D31F000D18500 /* FileExplorerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46A6259D31F000D18500 /* FileExplorerViewController.swift */; };
+		B8AE46A9259D320000D18500 /* FileExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46A8259D320000D18500 /* FileExplorerViewModel.swift */; };
+		B8AE46AB259D6AD100D18500 /* FilesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46AA259D6AD100D18500 /* FilesRepository.swift */; };
+		B8AE46AD259D6B3700D18500 /* DropboxFileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46AC259D6B3700D18500 /* DropboxFileRepository.swift */; };
+		B8AE46AF259D6F7600D18500 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46AE259D6F7600D18500 /* UserDefaultsHelper.swift */; };
+		B8AE46B8259D7AAF00D18500 /* DropboxFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46B7259D7AAF00D18500 /* DropboxFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +35,12 @@
 		B8AE4698259CEFF600D18500 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B8AE469F259CF27F00D18500 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		B8AE46A1259CF2D300D18500 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		B8AE46A6259D31F000D18500 /* FileExplorerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExplorerViewController.swift; sourceTree = "<group>"; };
+		B8AE46A8259D320000D18500 /* FileExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExplorerViewModel.swift; sourceTree = "<group>"; };
+		B8AE46AA259D6AD100D18500 /* FilesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesRepository.swift; sourceTree = "<group>"; };
+		B8AE46AC259D6B3700D18500 /* DropboxFileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFileRepository.swift; sourceTree = "<group>"; };
+		B8AE46AE259D6F7600D18500 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		B8AE46B7259D7AAF00D18500 /* DropboxFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFile.swift; sourceTree = "<group>"; };
 		ED2CB4FE4EABFDA11FE9F733 /* Pods-Drop it.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drop it.debug.xcconfig"; path = "Target Support Files/Pods-Drop it/Pods-Drop it.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +110,7 @@
 		B8AE469B259CF0D100D18500 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				B8AE46A5259D31D600D18500 /* File Explorer */,
 				B8AE469E259CF21A00D18500 /* Log in */,
 			);
 			path = UI;
@@ -106,6 +119,9 @@
 		B8AE469C259CF0D800D18500 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B8AE46B3259D7A6100D18500 /* Helpers */,
+				B8AE46B0259D7A1E00D18500 /* Base */,
+				B8AE46AC259D6B3700D18500 /* DropboxFileRepository.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -113,6 +129,7 @@
 		B8AE469D259CF0DE00D18500 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				B8AE46B7259D7AAF00D18500 /* DropboxFile.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -124,6 +141,31 @@
 				B8AE46A1259CF2D300D18500 /* LogInViewController.swift */,
 			);
 			path = "Log in";
+			sourceTree = "<group>";
+		};
+		B8AE46A5259D31D600D18500 /* File Explorer */ = {
+			isa = PBXGroup;
+			children = (
+				B8AE46A8259D320000D18500 /* FileExplorerViewModel.swift */,
+				B8AE46A6259D31F000D18500 /* FileExplorerViewController.swift */,
+			);
+			path = "File Explorer";
+			sourceTree = "<group>";
+		};
+		B8AE46B0259D7A1E00D18500 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				B8AE46AA259D6AD100D18500 /* FilesRepository.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		B8AE46B3259D7A6100D18500 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B8AE46AE259D6F7600D18500 /* UserDefaultsHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		DB0C00F7D51A52F7AEAA23B6 /* Frameworks */ = {
@@ -248,10 +290,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8AE46AF259D6F7600D18500 /* UserDefaultsHelper.swift in Sources */,
+				B8AE46A7259D31F000D18500 /* FileExplorerViewController.swift in Sources */,
 				B8AE46A0259CF27F00D18500 /* LogInViewModel.swift in Sources */,
+				B8AE46A9259D320000D18500 /* FileExplorerViewModel.swift in Sources */,
+				B8AE46AB259D6AD100D18500 /* FilesRepository.swift in Sources */,
 				B8AE46A2259CF2D300D18500 /* LogInViewController.swift in Sources */,
 				B8AE4685259CE1FA00D18500 /* AppDelegate.swift in Sources */,
+				B8AE46AD259D6B3700D18500 /* DropboxFileRepository.swift in Sources */,
 				B8AE4687259CE1FA00D18500 /* SceneDelegate.swift in Sources */,
+				B8AE46B8259D7AAF00D18500 /* DropboxFile.swift in Sources */,
 				B8AE4699259CEFF600D18500 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
