@@ -8,5 +8,6 @@ target 'Drop it' do
   pod 'SwiftyDropbox'
   pod 'RxSwift', '6.0.0-rc.2'
   pod 'ProgressHUD'
+  pod 'SnapKit', '~> 5.0.0'
 
 end

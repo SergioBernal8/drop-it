@@ -21,6 +21,7 @@
 		B8AE46AD259D6B3700D18500 /* DropboxFileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46AC259D6B3700D18500 /* DropboxFileRepository.swift */; };
 		B8AE46AF259D6F7600D18500 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46AE259D6F7600D18500 /* UserDefaultsHelper.swift */; };
 		B8AE46B8259D7AAF00D18500 /* DropboxFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46B7259D7AAF00D18500 /* DropboxFile.swift */; };
+		B8B91066259E0A4B000D895D /* FileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B91065259E0A4B000D895D /* FileTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		B8AE46AC259D6B3700D18500 /* DropboxFileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFileRepository.swift; sourceTree = "<group>"; };
 		B8AE46AE259D6F7600D18500 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		B8AE46B7259D7AAF00D18500 /* DropboxFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFile.swift; sourceTree = "<group>"; };
+		B8B91065259E0A4B000D895D /* FileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTableViewCell.swift; sourceTree = "<group>"; };
 		ED2CB4FE4EABFDA11FE9F733 /* Pods-Drop it.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drop it.debug.xcconfig"; path = "Target Support Files/Pods-Drop it/Pods-Drop it.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,6 +150,7 @@
 			children = (
 				B8AE46A8259D320000D18500 /* FileExplorerViewModel.swift */,
 				B8AE46A6259D31F000D18500 /* FileExplorerViewController.swift */,
+				B8B91065259E0A4B000D895D /* FileTableViewCell.swift */,
 			);
 			path = "File Explorer";
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8AE46AF259D6F7600D18500 /* UserDefaultsHelper.swift in Sources */,
+				B8B91066259E0A4B000D895D /* FileTableViewCell.swift in Sources */,
 				B8AE46A7259D31F000D18500 /* FileExplorerViewController.swift in Sources */,
 				B8AE46A0259CF27F00D18500 /* LogInViewModel.swift in Sources */,
 				B8AE46A9259D320000D18500 /* FileExplorerViewModel.swift in Sources */,

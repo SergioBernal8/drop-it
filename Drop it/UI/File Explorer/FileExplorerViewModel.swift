@@ -13,17 +13,19 @@ protocol FileExplorerViewModelInterface {
     var repository: FilesRepository { get }
     
     var subjectLoadingIndicator: PublishSubject<Bool> { get }
-    var subjectFiles: PublishSubject<DropboxFile> { get }
+    var subjectReloadFiles: PublishSubject<Bool> { get }
     
     func getMainFiles()
     func getFilesForNext(path: String)
     func getPreviousFiles()
+    func getFileCount() -> Int
+    func getFileFor(index: Int) -> DropboxFile
 }
 
 class FileExplorerViewModel: FileExplorerViewModelInterface {
     
     let subjectLoadingIndicator = PublishSubject<Bool>()
-    let subjectFiles = PublishSubject<DropboxFile>()
+    let subjectReloadFiles = PublishSubject<Bool>()
     
     let repository: FilesRepository
     let bag = DisposeBag()
@@ -40,8 +42,7 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
         
         repository.filesSubject.subscribe(onNext: { [weak self] file in
             self?.filesBackUp[self?.currentPage ?? 0]?.append(file)
-            
-            self?.subjectFiles.onNext(file)
+            self?.filesBackUp[self?.currentPage ?? 0]?.sort(by: { $0.name < $1.name})
         }).disposed(by: bag)
         
         repository.requestStatusSubject.subscribe(onNext: { status in
@@ -50,7 +51,7 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
             case .started:
                 self.subjectLoadingIndicator.onNext(true)
             case .finished:
-                
+                self.subjectReloadFiles.onNext(true)
                 self.subjectLoadingIndicator.onNext(false)
             case .error:
                 self.subjectLoadingIndicator.onNext(false)
@@ -79,7 +80,11 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
         currentPage -= 1
         
         filesBackUp[currentPage]?.forEach({ (file) in
-            self.subjectFiles.onNext(file)
+            self.subjectReloadFiles.onNext(true)
         })
     }
+    
+    func getFileCount() -> Int { filesBackUp[currentPage]?.count ?? 0 }
+    
+    func getFileFor(index: Int) -> DropboxFile { filesBackUp[currentPage]?[index] ?? DropboxFile(cursor: "", name: "", path: "", description: "", isFolder: false) }
 }
