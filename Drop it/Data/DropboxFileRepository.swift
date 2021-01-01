@@ -68,10 +68,10 @@ class DropboxFileRepository: FilesRepository {
             var file: DropboxFile?
             
             switch fileMeta {
-            case _ as Files.FileMetadata:
-                file = DropboxFile(cursor: result.cursor , name: fileMeta.name, path: fileMeta.pathLower ?? "", description: fileMeta.description, isFolder: false)
-            case _ as Files.FolderMetadata:
-                file = DropboxFile(cursor: result.cursor , name: fileMeta.name, path: fileMeta.pathLower ?? "", description: fileMeta.description, isFolder: true)
+            case let data as Files.FileMetadata:
+                file = DropboxFile(cursor: result.cursor , name: fileMeta.name, path: fileMeta.pathLower ?? "", description: fileMeta.description, isFolder: false,dateModified: data.clientModified)
+            case _ as Files.FolderMetadata:                
+                file = DropboxFile(cursor: result.cursor , name: fileMeta.name, path: fileMeta.pathLower ?? "", description: fileMeta.description, isFolder: true, dateModified: nil)
             default:
                 print("fileMeta is not a folder or file")
             }

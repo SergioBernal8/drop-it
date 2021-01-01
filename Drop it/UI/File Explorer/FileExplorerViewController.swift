@@ -54,7 +54,7 @@ class FileExplorerViewController: UIViewController {
         let navBar = UINavigationBar(frame: CGRect(x: 0, y: 12, width: view.frame.size.width, height: 44))
         navBar.barTintColor = .white
         navBar.tintColor = .black
-                
+        
         let image = UIImage(named: "backIcon")
         let navItem = UINavigationItem(title: "Files")
         let backButton = UIBarButtonItem(image: image, style: .plain, target: nil, action: #selector(backButtonPresses))
@@ -70,6 +70,7 @@ class FileExplorerViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
+        tableView.register(FolderTableViewCell.self, forCellReuseIdentifier: "FolderCell")
         tableView.register(FileTableViewCell.self, forCellReuseIdentifier: "FileCell")
         
         view.addSubview(tableView)
@@ -110,9 +111,18 @@ extension FileExplorerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { viewModel?.getFileCount() ?? 0 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "FileCell", for: indexPath as IndexPath) as? FileTableViewCell, let viewModel = viewModel{
-            cell.model = viewModel.getFileFor(index: indexPath.row)
-            return cell
+        if let model = viewModel?.getFileFor(index: indexPath.row) {
+            if model.isFolder {
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "FolderCell", for: indexPath as IndexPath) as? FolderTableViewCell {
+                    cell.model = model
+                    return cell
+                }
+            } else {
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "FileCell", for: indexPath as IndexPath) as? FileTableViewCell {
+                    cell.model = model
+                    return cell
+                }
+            }
         }
         return UITableViewCell()
     }

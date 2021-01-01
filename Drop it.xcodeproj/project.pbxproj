@@ -22,6 +22,7 @@
 		B8AE46AF259D6F7600D18500 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46AE259D6F7600D18500 /* UserDefaultsHelper.swift */; };
 		B8AE46B8259D7AAF00D18500 /* DropboxFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE46B7259D7AAF00D18500 /* DropboxFile.swift */; };
 		B8B91066259E0A4B000D895D /* FileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B91065259E0A4B000D895D /* FileTableViewCell.swift */; };
+		B8B91068259F622C000D895D /* FolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B91067259F622C000D895D /* FolderTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		B8AE46AE259D6F7600D18500 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		B8AE46B7259D7AAF00D18500 /* DropboxFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxFile.swift; sourceTree = "<group>"; };
 		B8B91065259E0A4B000D895D /* FileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTableViewCell.swift; sourceTree = "<group>"; };
+		B8B91067259F622C000D895D /* FolderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderTableViewCell.swift; sourceTree = "<group>"; };
 		ED2CB4FE4EABFDA11FE9F733 /* Pods-Drop it.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drop it.debug.xcconfig"; path = "Target Support Files/Pods-Drop it/Pods-Drop it.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,9 +150,9 @@
 		B8AE46A5259D31D600D18500 /* File Explorer */ = {
 			isa = PBXGroup;
 			children = (
+				B8B91069259F63CE000D895D /* Cells */,
 				B8AE46A8259D320000D18500 /* FileExplorerViewModel.swift */,
 				B8AE46A6259D31F000D18500 /* FileExplorerViewController.swift */,
-				B8B91065259E0A4B000D895D /* FileTableViewCell.swift */,
 			);
 			path = "File Explorer";
 			sourceTree = "<group>";
@@ -169,6 +171,15 @@
 				B8AE46AE259D6F7600D18500 /* UserDefaultsHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B8B91069259F63CE000D895D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B8B91067259F622C000D895D /* FolderTableViewCell.swift */,
+				B8B91065259E0A4B000D895D /* FileTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		DB0C00F7D51A52F7AEAA23B6 /* Frameworks */ = {
@@ -300,6 +311,7 @@
 				B8AE46A9259D320000D18500 /* FileExplorerViewModel.swift in Sources */,
 				B8AE46AB259D6AD100D18500 /* FilesRepository.swift in Sources */,
 				B8AE46A2259CF2D300D18500 /* LogInViewController.swift in Sources */,
+				B8B91068259F622C000D895D /* FolderTableViewCell.swift in Sources */,
 				B8AE4685259CE1FA00D18500 /* AppDelegate.swift in Sources */,
 				B8AE46AD259D6B3700D18500 /* DropboxFileRepository.swift in Sources */,
 				B8AE4687259CE1FA00D18500 /* SceneDelegate.swift in Sources */,

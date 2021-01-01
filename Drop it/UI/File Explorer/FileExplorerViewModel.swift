@@ -95,5 +95,5 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
     
     func getFileCount() -> Int { filesBackUp[currentPage]?.count ?? 0 }
     
-    func getFileFor(index: Int) -> DropboxFile { filesBackUp[currentPage]?[index] ?? DropboxFile(cursor: "", name: "", path: "", description: "", isFolder: false) }
+    func getFileFor(index: Int) -> DropboxFile { filesBackUp[currentPage]?[index] ?? DropboxFile(cursor: "", name: "", path: "", description: "", isFolder: false, dateModified: nil) }
 }

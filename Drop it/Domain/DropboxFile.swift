@@ -15,5 +15,6 @@ struct DropboxFile {
     let path: String
     let description: String
     let isFolder: Bool
+    let dateModified: Date?
     
 }
