@@ -23,7 +23,7 @@ class FileTableViewCell: UITableViewCell {
     var thumbnailImage: UIImageView!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        self.model = DropboxFile(cursor: "", name: "", path: "", description: "", isFolder: false, dateModified: nil)
+        self.model = DropboxFile(id: "", cursor: "", name: "", path: "", description: "", isFolder: false, dateModified: nil)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setUpCell()
     }
@@ -67,6 +67,12 @@ class FileTableViewCell: UITableViewCell {
     
     private func setUpData() {
         titleLabel.text = model.name
+        
+        if let thumbnail = model.thumbnail {
+            thumbnailImage.image = thumbnail
+        } else {
+            thumbnailImage.image = UIImage(named: "file")
+        }
     
         if let date = model.dateModified {
             let dateFormatter = DateFormatter()

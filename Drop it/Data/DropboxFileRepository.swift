@@ -19,8 +19,10 @@ enum RequestStatus {
 
 class DropboxFileRepository: FilesRepository {
     
+        
     var filesSubject = PublishSubject<DropboxFile>()
     var requestStatusSubject = PublishSubject<RequestStatus>()
+    var imageDataSubject = PublishSubject<(DropboxFile,Data)>()
     
     var client: DropboxClient? {
         get {
@@ -39,8 +41,16 @@ class DropboxFileRepository: FilesRepository {
             }
             if let result = result {
                 self.handleResult(result: result)
-            }else{
+            } else {
                 self.requestStatusSubject.onNext(.emptyData)
+            }
+        })
+    }
+    
+    func getThumbnail(for dropboxFile: DropboxFile) {
+        client?.files.getThumbnail(path: dropboxFile.path, format: .jpeg,size: .w32h32).response(completionHandler: { (response, error) in
+            if let (_, data) = response {
+                self.imageDataSubject.onNext((dropboxFile, data))
             }
         })
     }
@@ -55,7 +65,7 @@ class DropboxFileRepository: FilesRepository {
             }
             if let result = result {
                 self.handleResult(result: result)
-            } else{
+            } else {
                 self.requestStatusSubject.onNext(.emptyData)
             }
         })
@@ -69,9 +79,9 @@ class DropboxFileRepository: FilesRepository {
             
             switch fileMeta {
             case let data as Files.FileMetadata:
-                file = DropboxFile(cursor: result.cursor , name: fileMeta.name, path: fileMeta.pathLower ?? "", description: fileMeta.description, isFolder: false,dateModified: data.clientModified)
-            case _ as Files.FolderMetadata:                
-                file = DropboxFile(cursor: result.cursor , name: fileMeta.name, path: fileMeta.pathLower ?? "", description: fileMeta.description, isFolder: true, dateModified: nil)
+                file = DropboxFile(id: data.id, cursor: result.cursor , name: fileMeta.name, path: fileMeta.pathLower ?? "", description: fileMeta.description, isFolder: false,dateModified: data.clientModified)
+            case let data as Files.FolderMetadata:
+                file = DropboxFile(id: data.id, cursor: result.cursor , name: fileMeta.name, path: fileMeta.pathLower ?? "", description: fileMeta.description, isFolder: true, dateModified: nil)
             default:
                 print("fileMeta is not a folder or file")
             }

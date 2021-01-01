@@ -42,6 +42,13 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
         
         repository.filesSubject.subscribe(onNext: { [weak self] file in
             self?.filesBackUp[self?.currentPage ?? 0]?.append(file)
+            if !file.isFolder {
+                self?.repository.getThumbnail(for: file)
+            }
+        }).disposed(by: bag)
+        
+        repository.imageDataSubject.subscribe(onNext: { [weak self] (file, data) in
+            self?.updateThumbnail(file: file, imageData: data)            
         }).disposed(by: bag)
         
         repository.requestStatusSubject.subscribe(onNext: { status in
@@ -93,7 +100,19 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
         subjectLoadingIndicator.onNext(false)
     }
     
+    private func updateThumbnail(file: DropboxFile, imageData: Data) {
+        for key in filesBackUp.keys {
+            for i in 0..<(filesBackUp[key]?.count ?? 0) {
+                if filesBackUp[key]?[i].id == file.id {
+                    filesBackUp[key]?[i].thumbnail = UIImage(data: imageData)
+                    subjectReloadFiles.onNext(true)
+                    return
+                }
+            }
+        }
+    }
+    
     func getFileCount() -> Int { filesBackUp[currentPage]?.count ?? 0 }
     
-    func getFileFor(index: Int) -> DropboxFile { filesBackUp[currentPage]?[index] ?? DropboxFile(cursor: "", name: "", path: "", description: "", isFolder: false, dateModified: nil) }
+    func getFileFor(index: Int) -> DropboxFile { filesBackUp[currentPage]?[index] ?? DropboxFile(id: "", cursor: "", name: "", path: "", description: "", isFolder: false, dateModified: nil) }
 }

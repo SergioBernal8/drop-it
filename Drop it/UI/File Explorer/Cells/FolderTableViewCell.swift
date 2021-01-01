@@ -22,7 +22,7 @@ class FolderTableViewCell: UITableViewCell {
     var folderImage: UIImageView!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        self.model = DropboxFile(cursor: "", name: "", path: "", description: "", isFolder: false, dateModified: nil)
+        self.model = DropboxFile(id: "", cursor: "", name: "", path: "", description: "", isFolder: false, dateModified: nil)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setUpCell()
     }
@@ -49,9 +49,7 @@ class FolderTableViewCell: UITableViewCell {
             make.left.equalTo(folderImage.snp.right).offset(10)
             make.right.equalToSuperview()
             make.centerY.equalToSuperview()
-        }
-            
-        
+        }        
     }
     
     private func setUpData() {
