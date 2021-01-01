@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		57780E9CDA156ABE5EAE04C9 /* Pods_Drop_it.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0177B436D468F6B861D9E140 /* Pods_Drop_it.framework */; };
+		B8336159259F76C0002A43FC /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8336158259F76C0002A43FC /* QuickLook.framework */; };
 		B8AE4685259CE1FA00D18500 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE4684259CE1FA00D18500 /* AppDelegate.swift */; };
 		B8AE4687259CE1FA00D18500 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AE4686259CE1FA00D18500 /* SceneDelegate.swift */; };
 		B8AE468E259CE20100D18500 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8AE468D259CE20100D18500 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		0177B436D468F6B861D9E140 /* Pods_Drop_it.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drop_it.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		414BEF826DA043426D770E58 /* Pods-Drop it.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drop it.release.xcconfig"; path = "Target Support Files/Pods-Drop it/Pods-Drop it.release.xcconfig"; sourceTree = "<group>"; };
+		B8336158259F76C0002A43FC /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		B8AE4681259CE1FA00D18500 /* Drop it.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drop it.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8AE4684259CE1FA00D18500 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8AE4686259CE1FA00D18500 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57780E9CDA156ABE5EAE04C9 /* Pods_Drop_it.framework in Frameworks */,
+				B8336159259F76C0002A43FC /* QuickLook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +188,7 @@
 		DB0C00F7D51A52F7AEAA23B6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B8336158259F76C0002A43FC /* QuickLook.framework */,
 				0177B436D468F6B861D9E140 /* Pods_Drop_it.framework */,
 			);
 			name = Frameworks;

@@ -15,8 +15,11 @@ protocol FilesRepository {
     
     var filesSubject: PublishSubject<DropboxFile> { get }
     var requestStatusSubject: PublishSubject<RequestStatus> { get }
-    var imageDataSubject: PublishSubject<(DropboxFile,Data)> { get }
+    var imageDataSubject: PublishSubject<(DropboxFile, Data)> { get }
+    var fileUrlSubject: PublishSubject<URL> { get }
+    var errorSubject: PublishSubject<String> { get }
     
     func getFiles(for path: String)
     func getThumbnail(for dropboxFile: DropboxFile)
+    func downloadFile(for dropboxFile: DropboxFile)
 }

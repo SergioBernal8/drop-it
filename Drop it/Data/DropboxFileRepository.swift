@@ -22,7 +22,9 @@ class DropboxFileRepository: FilesRepository {
         
     var filesSubject = PublishSubject<DropboxFile>()
     var requestStatusSubject = PublishSubject<RequestStatus>()
-    var imageDataSubject = PublishSubject<(DropboxFile,Data)>()
+    var imageDataSubject = PublishSubject<(DropboxFile, Data)>()
+    var fileUrlSubject = PublishSubject<URL>()
+    var errorSubject = PublishSubject<String>()
     
     var client: DropboxClient? {
         get {
@@ -34,9 +36,8 @@ class DropboxFileRepository: FilesRepository {
         requestStatusSubject.onNext(.started)
         client?.files.listFolder(path: path, includeMediaInfo: true, limit: 100).response(completionHandler: { (result, error) in
             if let error = error {
-                print(error)
                 self.requestStatusSubject.onNext(.error)
-                UserDefaultsHelper.userIsLogged = false
+                self.errorSubject.onNext(error.description)
                 return
             }
             if let result = result {
@@ -55,12 +56,29 @@ class DropboxFileRepository: FilesRepository {
         })
     }
     
+    func downloadFile(for dropboxFile: DropboxFile) {
+        
+        let fileManager = FileManager.default
+        let directoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let destURL = directoryURL.appendingPathComponent(dropboxFile.name)
+        let destination: (URL, HTTPURLResponse) -> URL = { temporaryURL, response in
+            return destURL
+        }
+        
+        client?.files.download(path: dropboxFile.path, overwrite: true, destination: destination).response(completionHandler: { (response, error) in
+            if let (_, url) = response {
+                self.fileUrlSubject.onNext(url)                
+            } else if let error = error {
+                self.errorSubject.onNext(error.description)
+            }
+        })
+      }
+    
     private func getNext(cursor: String) {
         client?.files.listFolderContinue(cursor: cursor).response(completionHandler: { (result, error) in
             if let error = error {
-                print(error)
                 self.requestStatusSubject.onNext(.error)
-                UserDefaultsHelper.userIsLogged = false
+                self.errorSubject.onNext(error.description)
                 return
             }
             if let result = result {

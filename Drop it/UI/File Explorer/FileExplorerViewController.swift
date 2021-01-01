@@ -9,12 +9,15 @@
 import UIKit
 import RxSwift
 import ProgressHUD
+import QuickLook
 
 class FileExplorerViewController: UIViewController {
     
     var viewModel: FileExplorerViewModelInterface?
     
     let bag = DisposeBag()
+    
+    private var previewUrl = [URL]()
     
     private var tableView: UITableView!
     
@@ -37,13 +40,17 @@ class FileExplorerViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        
         addNavBar()
         addListView()
         addBindings()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.viewModel?.getMainFiles()
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        previewUrl.removeAll()
     }
     
     @objc func backButtonPresses() {
@@ -86,6 +93,14 @@ class FileExplorerViewController: UIViewController {
             }
         }).disposed(by: bag)
         
+        viewModel?.subjectUrl.subscribe(onNext: { url in
+            self.goToViewer(url: url)
+        }).disposed(by: bag)
+        
+        viewModel?.subjectShowError.subscribe(onNext: { errorMessage in
+            self.showError(with: errorMessage)
+        }).disposed(by: bag)
+        
         viewModel?.subjectReloadFiles.subscribe(onNext: { reload in
             if reload {
                 self.tableView.reloadData()
@@ -93,9 +108,27 @@ class FileExplorerViewController: UIViewController {
         }).disposed(by: bag)
     }
     
+    private func goToViewer(url: URL) {
+        previewUrl.append(url)
+        
+        let controller = QLPreviewController()
+        controller.dataSource = self
+        present(controller, animated: true, completion: nil)        
+    }
+    
+    private func showError(with message: String){
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertController.Style.alert)
+        
+        alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { action in
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 
 // MARK: UITableViewDataSource
+
 extension FileExplorerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -107,7 +140,9 @@ extension FileExplorerViewController: UITableViewDelegate {
 
 
 // MARK: UITableViewDataSource
+
 extension FileExplorerViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { viewModel?.getFileCount() ?? 0 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -127,4 +162,15 @@ extension FileExplorerViewController: UITableViewDataSource {
         return UITableViewCell()
     }
     
+}
+
+// MARK: QLPreviewControllerDataSource
+
+extension FileExplorerViewController: QLPreviewControllerDataSource {
+    
+    func numberOfPreviewItems(in controller: QLPreviewController) -> Int { previewUrl.count }
+    
+    func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+        previewUrl[index] as QLPreviewItem
+    }        
 }

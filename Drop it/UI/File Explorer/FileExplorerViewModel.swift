@@ -14,18 +14,22 @@ protocol FileExplorerViewModelInterface {
     
     var subjectLoadingIndicator: PublishSubject<Bool> { get }
     var subjectReloadFiles: PublishSubject<Bool> { get }
+    var subjectUrl: PublishSubject<URL> { get }
+    var subjectShowError: PublishSubject<String> { get }
     
     func getMainFiles()
     func getFilesForNext(index: Int)
     func getPreviousFiles()
     func getFileCount() -> Int
-    func getFileFor(index: Int) -> DropboxFile    
+    func getFileFor(index: Int) -> DropboxFile
 }
 
 class FileExplorerViewModel: FileExplorerViewModelInterface {
     
     let subjectLoadingIndicator = PublishSubject<Bool>()
     let subjectReloadFiles = PublishSubject<Bool>()
+    let subjectUrl = PublishSubject<URL>()
+    let subjectShowError = PublishSubject<String>()
     
     let repository: FilesRepository
     let bag = DisposeBag()
@@ -49,6 +53,16 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
         
         repository.imageDataSubject.subscribe(onNext: { [weak self] (file, data) in
             self?.updateThumbnail(file: file, imageData: data)            
+        }).disposed(by: bag)
+        
+        repository.fileUrlSubject.subscribe(onNext: { [weak self] url in            
+            self?.subjectUrl.onNext(url)
+            self?.subjectLoadingIndicator.onNext(false)
+        }).disposed(by: bag)
+        
+        repository.errorSubject.subscribe(onNext: { [weak self] errorMessage in
+            self?.subjectLoadingIndicator.onNext(false)
+            self?.subjectShowError.onNext(errorMessage)
         }).disposed(by: bag)
         
         repository.requestStatusSubject.subscribe(onNext: { status in
@@ -78,7 +92,10 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
     
     func getFilesForNext(index: Int) {
         
-        guard filesBackUp[currentPage]?[index].isFolder ?? false else { return }
+        guard filesBackUp[currentPage]?[index].isFolder ?? false else {
+            openFileIfSupported(index: index)
+            return
+        }
         
         subjectLoadingIndicator.onNext(true)
         
@@ -108,6 +125,19 @@ class FileExplorerViewModel: FileExplorerViewModelInterface {
                     subjectReloadFiles.onNext(true)
                     return
                 }
+            }
+        }
+    }
+    
+    func openFileIfSupported(index: Int) {
+        subjectLoadingIndicator.onNext(true)
+        
+        if let file = filesBackUp[currentPage]?[index] {
+            if file.name.hasSuffix(".jpg") || file.name.hasSuffix(".png") || file.name.hasSuffix(".pdf") {
+                repository.downloadFile(for: file)
+            } else {
+                subjectLoadingIndicator.onNext(false)
+                subjectShowError.onNext("File not supported for preview")
             }
         }
     }
